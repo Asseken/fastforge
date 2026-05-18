@@ -22,10 +22,14 @@ class MakeExeConfig extends MakeConfig {
   });
 
   factory MakeExeConfig.fromJson(Map<String, dynamic> json) {
-    List<String>? locales =
-        json['locales'] != null ? List<String>.from(json['locales']) : null;
-    if (locales == null || locales.isEmpty) locales = ['en'];
-
+    List<Map<String, dynamic>>? locales = json['locales'] != null
+        ? List<Map<String, dynamic>>.from(json['locales'])
+        : null;
+    if (locales == null || locales.isEmpty) {
+      locales = [
+        {'lang': 'en'}
+      ];
+    }
     // use absolute path
     String iconfile = '';
     if (json['setup_icon_file'] != null) {
@@ -43,7 +47,7 @@ class MakeExeConfig extends MakeConfig {
       createDesktopIcon: json['create_desktop_icon'],
       launchAtStartup: json['launch_at_startup'],
       installDirName: json['install_dir_name'],
-      setupIconFile: iconfile,
+      setupIconFile: json['setup_icon_file'],
       privilegesRequired: json['privileges_required'],
       locales: locales,
       architecturesAllowed: json['architectures_allowed'],
@@ -64,7 +68,7 @@ class MakeExeConfig extends MakeConfig {
   String? installDirName;
   String? setupIconFile;
   String? privilegesRequired;
-  List<String>? locales;
+  List<Map<String, dynamic>>? locales;
 
   /// Space-separated list of architecture identifiers (or a boolean expression)
   /// specifying which architectures Setup is allowed to run on.
@@ -98,6 +102,7 @@ class MakeExeConfig extends MakeConfig {
     return {
       'script_template': scriptTemplate,
       'app_id': appId,
+      'arch': arch,
       'app_name': appName,
       'app_version': appVersion.toString(),
       'executable_name': executableName,

@@ -10,7 +10,18 @@ class AppPackageMakerApk extends AppPackageMaker {
 
   @override
   Future<MakeResult> make(MakeConfig config) {
-    config.buildOutputFiles.first.copySync(config.outputFile.path);
+    for (final file in config.buildOutputFiles) {
+      final splits = file.uri.pathSegments.last.split('-');
+      if (splits.length > 2) {
+        final sublist = splits.sublist(1, splits.length - 1);
+        final outputPath = config.outputFile.path;
+        final lastDotIndex = outputPath.lastIndexOf('.');
+        final firstPart = outputPath.substring(0, lastDotIndex);
+        final lastPart = outputPath.substring(lastDotIndex + 1);
+        final output = '$firstPart-${sublist.join('-')}.${lastPart}';
+        file.copySync(output);
+      }
+    }
     return Future.value(resultResolver.resolve(config));
   }
 }
