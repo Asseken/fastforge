@@ -48,7 +48,10 @@ class CommandPackage extends Command {
 
     argParser.addOption('channel', valueHelp: '');
     argParser.addOption('artifact-name', valueHelp: '');
-
+    argParser.addOption(
+      'description',
+      valueHelp: '',
+    );
     argParser.addFlag(
       'skip-clean',
       help: 'Whether or not to skip \'flutter clean\' before packaging.',
@@ -139,6 +142,7 @@ class CommandPackage extends Command {
       artifactName: artifactName,
       cleanBeforeBuild: !isSkipClean,
       buildArguments: buildArguments,
+      description: argResults!['description'],
     );
   }
 
