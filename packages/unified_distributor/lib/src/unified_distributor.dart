@@ -191,10 +191,8 @@ class UnifiedDistributor {
             'channel': channel,
             'artifact_name': artifactName,
             'description': description,
-            Platform.isWindows
-                    ? 'arch'
-                    : (buildResult as BuildWindowsResult).arch:
-                null,
+            if (Platform.isWindows)
+              'arch': (buildResult as BuildWindowsResult).arch,
           };
           MakeResult makeResult = await _packager.package(
             platform,
