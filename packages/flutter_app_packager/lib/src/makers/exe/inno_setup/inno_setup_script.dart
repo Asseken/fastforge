@@ -115,54 +115,6 @@ class InnoSetupScript {
 
   final MakeExeConfig makeConfig;
 
-  /// Filters locales to only include those whose language files actually exist.
-  List<String> _getAvailableLocales() {
-    List<String> locales = makeConfig.locales ?? ['en'];
-    if (locales.isEmpty) return ['en'];
-
-    // Resolve the Inno Setup installation path
-    String isccPath = InnoSetupCompiler.resolveIsccPath();
-    String innoDir;
-    if (isccPath == 'iscc') {
-      // When falling back to PATH, the directory is unknown — keep all locales
-      return locales;
-    } else {
-      innoDir = path.dirname(isccPath);
-    }
-
-    // Filter: only keep locales whose .isl file exists at the Inno Setup path
-    List<String> available = [];
-    for (String locale in locales) {
-      String? languageFile = _localeToLanguageFile[locale];
-      if (languageFile == null) {
-        available.add(locale);
-        continue;
-      }
-
-      // For English (default), Default.isl is in the ISCC root directory
-      if (locale == 'en') {
-        File defaultIsl = File(path.join(innoDir, languageFile));
-        if (defaultIsl.existsSync()) {
-          available.add(locale);
-        }
-        continue;
-      }
-
-      // Other language files are in the Languages subdirectory
-      File langFile = File(path.join(innoDir, 'Languages', languageFile));
-      if (langFile.existsSync()) {
-        available.add(locale);
-      } else {
-        print(
-          '[fastforge] Language file not found, skipping locale "$locale": ${langFile.path}',
-        );
-      }
-    }
-
-    if (available.isEmpty) return ['en'];
-    return available;
-  }
-
   Future<File> createFile() async {
     Map<String, dynamic> variables = {
       'APP_ID': makeConfig.appId,
