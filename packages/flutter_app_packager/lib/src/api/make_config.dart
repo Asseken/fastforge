@@ -25,7 +25,11 @@ class MakeConfig {
   String? artifactName;
   late String packageFormat;
   late Directory outputDirectory;
+  /// Shell commands to run before packaging.
+  List<String>? prepackageHooks;
 
+  /// Shell commands to run after packaging.
+  List<String>? postpackageHooks;
 String get appName => distributeOptionsBase.appName ?? pubspec.name;
 
   String get appBinaryName => distributeOptionsBase.appName ?? pubspec.name;
@@ -45,7 +49,7 @@ String get appName => distributeOptionsBase.appName ?? pubspec.name;
     buildOutputDirectory = makeConfig.buildOutputDirectory;
     buildOutputFiles = makeConfig.buildOutputFiles;
     platform = makeConfig.platform;
-      description = makeConfig.description;
+    description = makeConfig.description;
     arch = makeConfig.arch;
     flavor = makeConfig.flavor;
     channel = makeConfig.channel;
