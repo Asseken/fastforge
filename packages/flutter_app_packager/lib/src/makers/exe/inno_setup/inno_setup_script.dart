@@ -180,7 +180,7 @@ class InnoSetupScript {
           makeConfig.installDirName ?? makeConfig.defaultInstallDirName,
       'SOURCE_DIR': makeConfig.sourceDir,
       'OUTPUT_BASE_FILENAME': makeConfig.outputBaseFileName,
-      'LOCALES': _getAvailableLocales(),
+      'LOCALES': makeConfig.locales,
       'SETUP_ICON_FILE': makeConfig.setupIconFile ?? '',
       'PRIVILEGES_REQUIRED': makeConfig.privilegesRequired ?? 'none',
       'ARCHITECTURES_ALLOWED': makeConfig.architecturesAllowed ?? 'x64compatible',
