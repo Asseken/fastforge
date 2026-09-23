@@ -45,7 +45,7 @@ class MakeExeConfig extends MakeConfig {
       createDesktopIcon: json['create_desktop_icon'],
       launchAtStartup: json['launch_at_startup'],
       installDirName: json['install_dir_name'],
-      setupIconFile: json['setup_icon_file'],
+      setupIconFile: iconfile,
       privilegesRequired: json['privileges_required'],
       locales: locales,
     );
